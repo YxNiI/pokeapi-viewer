@@ -35,30 +35,36 @@ async function searchPokeInfo(name)
 
 document.getElementById("search-button").addEventListener("click", () =>
 {
-    searchPokeInfo(document.getElementById("search-bar").value).then((pokeInfoValue) =>
+    searchPokeInfo(document.getElementById("search-bar").value).then((pokeInfo) =>
                                                                      {
-                                                                         const pokeInfoArr = [];
-                                                                         pokeInfoArr.push(
-                                                                             "Name: " + pokeInfoValue.name);
-                                                                         pokeInfoArr.push(
-                                                                             "Species: " + pokeInfoValue.species.name);
-                                                                         pokeInfoArr.push(
-                                                                             "Types: " + pokeInfoValue.types.map(
+                                                                         const sprite = document.createElement("img");
+                                                                         sprite.style.display = "block";
+                                                                         sprite.src =
+                                                                             pokeInfo.sprites.front_default;
+                                                                         document.body.appendChild(sprite);
+
+                                                                         const pokeInfos = [];
+                                                                         pokeInfos.push(
+                                                                             "Name: " + pokeInfo.name);
+                                                                         pokeInfos.push(
+                                                                             "Species: " + pokeInfo.species.name);
+                                                                         pokeInfos.push(
+                                                                             "Types: " + pokeInfo.types.map(
                                                                                            pokemonType => pokemonType.type.name)
-                                                                                                      .join(", "));
-                                                                         pokeInfoArr.push(
-                                                                             "Size: " + pokeInfoValue.height);
-                                                                         pokeInfoArr.push(
+                                                                                                 .join(", "));
+                                                                         pokeInfos.push(
+                                                                             "Size: " + pokeInfo.height);
+                                                                         pokeInfos.push(
                                                                              "Abilities: "
-                                                                             + pokeInfoValue.abilities.map(
+                                                                             + pokeInfo.abilities.map(
                                                                                  pokemonAbility => pokemonAbility.ability.name)
-                                                                                            .join(", "));
-                                                                         pokeInfoArr.forEach(
-                                                                             foo =>
+                                                                                       .join(", "));
+                                                                         pokeInfos.forEach(
+                                                                             info =>
                                                                              {
                                                                                  const pokeInfoParagraph = document.createElement(
                                                                                      "p");
-                                                                                 pokeInfoParagraph.textContent = foo;
+                                                                                 pokeInfoParagraph.textContent = info;
                                                                                  document.body.appendChild(
                                                                                      pokeInfoParagraph);
                                                                              });
