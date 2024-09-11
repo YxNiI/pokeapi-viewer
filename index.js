@@ -59,8 +59,8 @@ document.getElementById("search-button").addEventListener("click", () =>
         {
             pokeInfos.push("Forms: " + pokeInfo.forms.map(pokemonForm => pokemonForm.name).join(", "));
         }
-        pokeInfos.push(
-            "Stats: " + pokeInfo.stats.map(pokemonStat => pokemonStat.stat.name + ": \"" + pokemonStat.base_stat + "\"").join(", "));
+        pokeInfos.push("Stats: " + pokeInfo.stats.map(pokemonStat => pokemonStat.stat.name + ": \"" + pokemonStat.base_stat + "\"").join(", "));
+        pokeInfos.push("Moves (last-three): " + pokeInfo.moves.slice((pokeInfo.moves.length - 3)).map(pokemonMove => pokemonMove.move.name).join(", "));
         pokeInfos.forEach(
             info =>
             {
