@@ -43,9 +43,9 @@ document.getElementById("search-button").addEventListener("click", () =>
 
         const pokeInfos = [];
         pokeInfos.push(
-            "Name: " + pokeInfo.name);
+            "Name: " + pokeInfo.name.charAt(0).toUpperCase() + pokeInfo.species.name.slice(1));
         pokeInfos.push(
-            "Species: " + pokeInfo.species.name);
+            "Species: " + pokeInfo.species.name.charAt(0).toUpperCase() + pokeInfo.species.name.slice(1));
         pokeInfos.push(
             "Types: " + pokeInfo.types.map(
                 pokemonType => pokemonType.type.name)
