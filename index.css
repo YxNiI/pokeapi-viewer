@@ -1,2 +1,25 @@
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    --poke-red: #ef5350;
+    --poke-blue: #3660ab;
+    --poke-yellow: #fdc91a;
+}
+
+body
+{
+    background-color: var(--poke-blue);
+}
+
+nav
+{
+    background-color: var(--poke-red);
+}
+
 .poke-card
-{}
+{
+    background-color: white;
+}
