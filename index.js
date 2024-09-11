@@ -39,7 +39,7 @@ document.getElementById("search-button").addEventListener("click", () =>
         sprite.style.display = "block";
         sprite.src =
             pokeInfo.sprites.front_default;
-        document.body.appendChild(sprite);
+        document.getElementById("card-viewer").appendChild(sprite);
 
         const pokeInfos = [];
         pokeInfos.push(
@@ -63,7 +63,7 @@ document.getElementById("search-button").addEventListener("click", () =>
                 const pokeInfoParagraph = document.createElement(
                     "p");
                 pokeInfoParagraph.textContent = info;
-                document.body.appendChild(
+                document.getElementById("card-viewer").appendChild(
                     pokeInfoParagraph);
             });
     });
