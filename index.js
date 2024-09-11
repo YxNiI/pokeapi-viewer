@@ -35,11 +35,14 @@ document.getElementById("search-button").addEventListener("click", () =>
 {
     searchPokeInfo(document.getElementById("search-bar").value).then((pokeInfo) =>
     {
+        const pokeCard = document.createElement("div");
+        pokeCard.classList.add("poke-card")
+
         const sprite = document.createElement("img");
         sprite.style.display = "block";
         sprite.src =
             pokeInfo.sprites.front_default;
-        document.getElementById("card-viewer").appendChild(sprite);
+        pokeCard.appendChild(sprite);
 
         const pokeInfos = [];
         pokeInfos.push(
@@ -67,8 +70,9 @@ document.getElementById("search-button").addEventListener("click", () =>
                 const pokeInfoParagraph = document.createElement(
                     "p");
                 pokeInfoParagraph.textContent = info;
-                document.getElementById("card-viewer").appendChild(
+                pokeCard.appendChild(
                     pokeInfoParagraph);
             });
+        document.getElementById("card-viewer").appendChild(pokeCard);
     });
 });
