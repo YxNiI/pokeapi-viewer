@@ -44,19 +44,23 @@ document.getElementById("search-button").addEventListener("click", () =>
         const pokeInfos = [];
         pokeInfos.push(
             "Name: " + pokeInfo.name.charAt(0).toUpperCase() + pokeInfo.species.name.slice(1));
+        if (pokeInfo.name !== pokeInfo.species.name)
+        {
+            pokeInfos.push(
+                "Species: " + pokeInfo.species.name.charAt(0).toUpperCase() + pokeInfo.species.name.slice(1));
+        }
         pokeInfos.push(
-            "Species: " + pokeInfo.species.name.charAt(0).toUpperCase() + pokeInfo.species.name.slice(1));
-        pokeInfos.push(
-            "Types: " + pokeInfo.types.map(
-                pokemonType => pokemonType.type.name)
-                .join(", "));
+            "Types: " + pokeInfo.types.map(pokemonType => pokemonType.type.name).join(", "));
         pokeInfos.push(
             "Size: " + pokeInfo.height);
         pokeInfos.push(
-            "Abilities: "
-            + pokeInfo.abilities.map(
-                pokemonAbility => pokemonAbility.ability.name)
-                .join(", "));
+            "Abilities: " + pokeInfo.abilities.map(pokemonAbility => pokemonAbility.ability.name).join(", "));
+        if (Array.isArray(pokeInfo.forms) && (pokeInfo.forms.length > 1))
+        {
+            pokeInfos.push("Forms: " + pokeInfo.forms.map(pokemonForm => pokemonForm.name).join(", "));
+        }
+        pokeInfos.push(
+            "Stats: " + pokeInfo.stats.map(pokemonStat => pokemonStat.stat.name + ": \"" + pokemonStat.base_stat + "\"").join(", "));
         pokeInfos.forEach(
             info =>
             {
