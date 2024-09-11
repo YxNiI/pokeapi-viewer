@@ -17,9 +17,11 @@ body
 nav
 {
     background-color: var(--poke-red);
+    position: sticky;
 }
 
 .poke-card
 {
+    margin-top: 10px;
     background-color: white;
 }
