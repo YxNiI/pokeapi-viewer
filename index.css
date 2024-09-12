@@ -66,3 +66,9 @@ img.sprite
     border-style: double;
     border-width: 5px;
 }
+
+::selection
+{
+    color: white;
+    background-color: var(--poke-blue);
+}
