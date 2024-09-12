@@ -33,47 +33,54 @@ async function searchPokeInfo(name)
 
 document.getElementById("search-button").addEventListener("click", () =>
 {
-    searchPokeInfo(document.getElementById("search-bar").value).then((pokeInfo) =>
-    {
-        const pokeCard = document.createElement("div");
-        pokeCard.classList.add("poke-card")
-
-        const sprite = document.createElement("img");
-        sprite.classList.add("sprite");
-        sprite.style.display = "block";
-        sprite.src =
-            pokeInfo.sprites.front_default;
-        pokeCard.appendChild(sprite);
-
-        const pokeInfos = [];
-        pokeInfos.push(
-            "Name: " + pokeInfo.name.charAt(0).toUpperCase() + pokeInfo.species.name.slice(1));
-        if (pokeInfo.name !== pokeInfo.species.name)
-        {
-            pokeInfos.push(
-                "Species: " + pokeInfo.species.name.charAt(0).toUpperCase() + pokeInfo.species.name.slice(1));
-        }
-        pokeInfos.push(
-            "Types: " + pokeInfo.types.map(pokemonType => pokemonType.type.name).join(", "));
-        pokeInfos.push(
-            "Size: " + pokeInfo.height);
-        pokeInfos.push(
-            "Abilities: " + pokeInfo.abilities.map(pokemonAbility => pokemonAbility.ability.name).join(", "));
-        if (Array.isArray(pokeInfo.forms) && (pokeInfo.forms.length > 1))
-        {
-            pokeInfos.push("Forms: " + pokeInfo.forms.map(pokemonForm => pokemonForm.name).join(", "));
-        }
-        pokeInfos.push("Stats: " + pokeInfo.stats.map(pokemonStat => pokemonStat.stat.name + ": \"" + pokemonStat.base_stat + "\"").join(", "));
-        pokeInfos.push("Moves (last-three): " + pokeInfo.moves.slice((pokeInfo.moves.length - 3)).map(pokemonMove => pokemonMove.move.name).join(", "));
-        pokeInfos.forEach(
-            info =>
-            {
-                const pokeInfoParagraph = document.createElement(
-                    "p");
-                pokeInfoParagraph.textContent = info;
-                pokeCard.appendChild(
-                    pokeInfoParagraph);
-            });
-        document.getElementById("card-viewer").appendChild(pokeCard);
-    });
+    searchPokeInfo(document.getElementById("search-bar").value).then(createPokeCard);
 });
+
+function createPokeCard(pokeInfo)
+{
+    const pokeCard = document.createElement("div");
+    pokeCard.classList.add("poke-card")
+
+    const sprite = document.createElement("img");
+    sprite.classList.add("sprite");
+    sprite.style.display = "block";
+    sprite.src =
+        pokeInfo.sprites.front_default;
+    pokeCard.appendChild(sprite);
+
+    const pokeInfos = [];
+    pokeInfos.push(
+        "Name: " + pokeInfo.name.charAt(0).toUpperCase() + pokeInfo.species.name.slice(1));
+    if (pokeInfo.name !== pokeInfo.species.name)
+    {
+        pokeInfos.push(
+            "Species: " + pokeInfo.species.name.charAt(0).toUpperCase() + pokeInfo.species.name.slice(1));
+    }
+    pokeInfos.push(
+        "Types: " + pokeInfo.types.map(pokemonType => pokemonType.type.name).join(", "));
+    pokeInfos.push(
+        "Size: " + pokeInfo.height);
+    pokeInfos.push(
+        "Abilities: " + pokeInfo.abilities.map(pokemonAbility => pokemonAbility.ability.name).join(", "));
+    if (Array.isArray(pokeInfo.forms) && (pokeInfo.forms.length > 1))
+    {
+        pokeInfos.push("Forms: " + pokeInfo.forms.map(pokemonForm => pokemonForm.name).join(", "));
+    }
+    pokeInfos.push("Stats: " + pokeInfo.stats.map(pokemonStat => pokemonStat.stat.name + ": \"" + pokemonStat.base_stat + "\"").join(", "));
+    pokeInfos.push("Moves (last-three): " + pokeInfo.moves.slice((pokeInfo.moves.length - 3)).map(pokemonMove => pokemonMove.move.name).join(", "));
+    pokeInfos.forEach(
+        info =>
+        {
+            const pokeInfoParagraph = document.createElement(
+                "p");
+            pokeInfoParagraph.textContent = info;
+            pokeCard.appendChild(
+                pokeInfoParagraph);
+        });
+    document.getElementById("card-viewer").appendChild(pokeCard);
+}
+
+// create initial infos
+searchPokeInfo("weezing").then(createPokeCard);
+searchPokeInfo("celesteela").then(createPokeCard);
+searchPokeInfo("nihilego").then(createPokeCard);
