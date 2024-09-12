@@ -1,3 +1,8 @@
+const pokeCards = [];
+pokeCards.unshift(searchPokeInfo("nihilego").then(createPokeCard));
+pokeCards.unshift(searchPokeInfo("celesteela").then(createPokeCard));
+pokeCards.unshift(searchPokeInfo("weezing").then(createPokeCard));
+
 async function searchPokeInfo(name)
 {
     let result = "pokemon-search-error";
@@ -33,7 +38,8 @@ async function searchPokeInfo(name)
 
 document.getElementById("search-button").addEventListener("click", () =>
 {
-    searchPokeInfo(document.getElementById("search-bar").value).then(createPokeCard);
+    pokeCards.unshift(searchPokeInfo(document.getElementById("search-bar").value).then(createPokeCard));
+    console.log(pokeCards.length);
 });
 
 function createPokeCard(pokeInfo)
@@ -77,10 +83,7 @@ function createPokeCard(pokeInfo)
             pokeCard.appendChild(
                 pokeInfoParagraph);
         });
-    document.getElementById("card-viewer").prepend(pokeCard);
-}
 
-// create initial infos
-searchPokeInfo("nihilego").then(createPokeCard);
-searchPokeInfo("celesteela").then(createPokeCard);
-searchPokeInfo("weezing").then(createPokeCard);
+    document.getElementById("card-viewer").prepend(pokeCard);
+    return pokeCard;
+}
