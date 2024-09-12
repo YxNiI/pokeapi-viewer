@@ -39,6 +39,7 @@ document.getElementById("search-button").addEventListener("click", () =>
         pokeCard.classList.add("poke-card")
 
         const sprite = document.createElement("img");
+        sprite.classList.add("sprite");
         sprite.style.display = "block";
         sprite.src =
             pokeInfo.sprites.front_default;

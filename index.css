@@ -33,10 +33,22 @@ nav
     padding: 10px;
 }
 
+img.sprite
+{
+    max-width: 20%;
+}
+
 .poke-card
 {
     margin-top: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 5px;
     background-color: white;
+
+    display: flex;
+    flex-direction: column;
+    row-gap: 3px;
 
     border-style: double;
     border-width: 5px;
