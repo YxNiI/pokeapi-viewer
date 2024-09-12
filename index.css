@@ -30,7 +30,7 @@ body
     background-color: var(--poke-blue);
 }
 
-nav
+header
 {
     background-color: var(--poke-red);
     position: sticky;
