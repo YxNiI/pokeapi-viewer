@@ -41,6 +41,9 @@ nav
 img.sprite
 {
     max-width: 20%;
+
+    border-style: double;
+    border-width: 5px;
 }
 
 .poke-card
