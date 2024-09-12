@@ -33,6 +33,11 @@ nav
     padding: 10px;
 }
 
+#search-button
+{
+    padding: 0.1em;
+}
+
 img.sprite
 {
     max-width: 20%;
