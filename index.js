@@ -77,10 +77,10 @@ function createPokeCard(pokeInfo)
             pokeCard.appendChild(
                 pokeInfoParagraph);
         });
-    document.getElementById("card-viewer").appendChild(pokeCard);
+    document.getElementById("card-viewer").prepend(pokeCard);
 }
 
 // create initial infos
-searchPokeInfo("weezing").then(createPokeCard);
-searchPokeInfo("celesteela").then(createPokeCard);
 searchPokeInfo("nihilego").then(createPokeCard);
+searchPokeInfo("celesteela").then(createPokeCard);
+searchPokeInfo("weezing").then(createPokeCard);
