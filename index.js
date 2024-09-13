@@ -1,5 +1,8 @@
-const maybePokeCards = sessionStorage.getItem("pokeInfos");
-const pokeInfos = (maybePokeCards !== null) ? JSON.parse(maybePokeCards) : [];
+const maybePokeInfos = sessionStorage.getItem("pokeInfos");
+const maybePokeCards = sessionStorage.getItem("pokeCards");
+const pokeInfos = (maybePokeInfos !== null) ? JSON.parse(maybePokeInfos) : [];
+const pokeCards = (maybePokeCards !== null) ? JSON.parse(maybePokeCards) : [];
+
 searchPokeInfo("nihilego").then(createPokeCard);
 searchPokeInfo("celesteela").then(createPokeCard);
 searchPokeInfo("weezing").then(createPokeCard);
@@ -89,7 +92,9 @@ function createPokeCard(pokeInfo)
     });
 
     pokeInfos.unshift({name: pokeInfo.name, pokeInfo: pokeInfo});
+    pokeCards.unshift({name: pokeInfo.name, pokeCard: card});
     sessionStorage.setItem("pokeInfos", JSON.stringify(pokeInfos));
+    sessionStorage.setItem("pokeCards", JSON.stringify(pokeCards));
 
     document.getElementById("card-viewer").prepend(card);
 }
