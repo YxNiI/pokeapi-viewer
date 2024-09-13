@@ -64,7 +64,7 @@ function createPokeCard(pokeInfo)
     if (pokeCardsFiltered.length > 0)
     {
         const domParser = new DOMParser();
-        card = domParser.parseFromString(pokeCardsFiltered[0].pokeCard, "text/html").body;
+        card = domParser.parseFromString(pokeCardsFiltered[0].pokeCard, "text/html").body.firstChild;
     } else
     {
         card = document.createElement("div");
