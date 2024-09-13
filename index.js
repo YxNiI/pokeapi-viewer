@@ -58,7 +58,8 @@ function createPokeCard(pokeInfo)
 
     if (pokeCardsFiltered.length > 0)
     {
-        card = pokeCardsFiltered[0].pokeCard;
+        const domParser = new DOMParser();
+        card = domParser.parseFromString(pokeCardsFiltered[0].pokeCard, "text/html").body;
     } else
     {
         card = document.createElement("div");
@@ -100,7 +101,7 @@ function createPokeCard(pokeInfo)
         });
 
         pokeInfos.unshift({name: pokeInfo.name, pokeInfo: pokeInfo});
-        pokeCards.unshift({name: pokeInfo.name, pokeCard: card});
+        pokeCards.unshift({name: pokeInfo.name, pokeCard: card.outerHTML});
         sessionStorage.setItem("pokeInfos", JSON.stringify(pokeInfos));
         sessionStorage.setItem("pokeCards", JSON.stringify(pokeCards));
     }
