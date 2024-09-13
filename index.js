@@ -14,7 +14,7 @@ document.getElementById("search-button").addEventListener("click", () =>
 
 async function searchPokeInfo(pokeName)
 {
-    const pokeInfosFiltered = pokeInfos.filter(pokeCard => pokeCard.name === pokeName);
+    const pokeInfosFiltered = pokeInfos.filter(pokeInfo => pokeInfo.name === pokeName);
     let result = "pokemon-search-error";
 
     if (pokeInfosFiltered.length > 0)
@@ -53,48 +53,57 @@ async function searchPokeInfo(pokeName)
 
 function createPokeCard(pokeInfo)
 {
-    const card = document.createElement("div");
-    card.classList.add("poke-card");
+    const pokeCardsFiltered = pokeCards.filter(pokeCard => pokeCard.name === pokeInfo.name);
+    let card = null;
 
-    const sprite = document.createElement("img");
-    sprite.classList.add("sprite");
-    sprite.style.display = "block";
-    sprite.src = pokeInfo.sprites.front_default;
-    card.appendChild(sprite);
-
-    const infos = [];
-    infos.push(
-        "Name: " + pokeInfo.name.charAt(0).toUpperCase() + pokeInfo.species.name.slice(1));
-    if (pokeInfo.name !== pokeInfo.species.name)
+    if (pokeCardsFiltered.length > 0)
     {
+        card = pokeCardsFiltered[0].pokeCard;
+    } else
+    {
+        card = document.createElement("div");
+        card.classList.add("poke-card");
+
+        const sprite = document.createElement("img");
+        sprite.classList.add("sprite");
+        sprite.style.display = "block";
+        sprite.src = pokeInfo.sprites.front_default;
+        card.appendChild(sprite);
+
+        const infos = [];
         infos.push(
-            "Species: " + pokeInfo.species.name.charAt(0).toUpperCase() + pokeInfo.species.name.slice(1));
-    }
-    infos.push(
-        "Types: " + pokeInfo.types.map(pokemonType => pokemonType.type.name).join(", "));
-    infos.push(
-        "Size: " + pokeInfo.height);
-    infos.push(
-        "Abilities: " + pokeInfo.abilities.map(pokemonAbility => pokemonAbility.ability.name).join(", "));
-    if (Array.isArray(pokeInfo.forms) && (pokeInfo.forms.length > 1))
-    {
-        infos.push("Forms: " + pokeInfo.forms.map(pokemonForm => pokemonForm.name).join(", "));
-    }
-    infos.push("Stats: " + pokeInfo.stats.map(pokemonStat => pokemonStat.stat.name + ": \"" + pokemonStat.base_stat + "\"").join(", "));
-    infos.push("Moves (last-three): " + pokeInfo.moves.slice((pokeInfo.moves.length - 3)).map(pokemonMove => pokemonMove.move.name).join(", "));
-    infos.forEach(info =>
-    {
-        const pokeInfoParagraph = document.createElement(
-            "p");
-        pokeInfoParagraph.textContent = info;
-        card.appendChild(
-            pokeInfoParagraph);
-    });
+            "Name: " + pokeInfo.name.charAt(0).toUpperCase() + pokeInfo.species.name.slice(1));
+        if (pokeInfo.name !== pokeInfo.species.name)
+        {
+            infos.push(
+                "Species: " + pokeInfo.species.name.charAt(0).toUpperCase() + pokeInfo.species.name.slice(1));
+        }
+        infos.push(
+            "Types: " + pokeInfo.types.map(pokemonType => pokemonType.type.name).join(", "));
+        infos.push(
+            "Size: " + pokeInfo.height);
+        infos.push(
+            "Abilities: " + pokeInfo.abilities.map(pokemonAbility => pokemonAbility.ability.name).join(", "));
+        if (Array.isArray(pokeInfo.forms) && (pokeInfo.forms.length > 1))
+        {
+            infos.push("Forms: " + pokeInfo.forms.map(pokemonForm => pokemonForm.name).join(", "));
+        }
+        infos.push("Stats: " + pokeInfo.stats.map(pokemonStat => pokemonStat.stat.name + ": \"" + pokemonStat.base_stat + "\"").join(", "));
+        infos.push("Moves (last-three): " + pokeInfo.moves.slice((pokeInfo.moves.length - 3)).map(pokemonMove => pokemonMove.move.name).join(", "));
+        infos.forEach(info =>
+        {
+            const pokeInfoParagraph = document.createElement(
+                "p");
+            pokeInfoParagraph.textContent = info;
+            card.appendChild(
+                pokeInfoParagraph);
+        });
 
-    pokeInfos.unshift({name: pokeInfo.name, pokeInfo: pokeInfo});
-    pokeCards.unshift({name: pokeInfo.name, pokeCard: card});
-    sessionStorage.setItem("pokeInfos", JSON.stringify(pokeInfos));
-    sessionStorage.setItem("pokeCards", JSON.stringify(pokeCards));
+        pokeInfos.unshift({name: pokeInfo.name, pokeInfo: pokeInfo});
+        pokeCards.unshift({name: pokeInfo.name, pokeCard: card});
+        sessionStorage.setItem("pokeInfos", JSON.stringify(pokeInfos));
+        sessionStorage.setItem("pokeCards", JSON.stringify(pokeCards));
+    }
 
     document.getElementById("card-viewer").prepend(card);
 }
