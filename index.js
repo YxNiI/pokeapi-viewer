@@ -1,89 +1,105 @@
-const pokeCards = [];
-pokeCards.unshift(searchPokeInfo("nihilego").then(createPokeCard));
-pokeCards.unshift(searchPokeInfo("celesteela").then(createPokeCard));
-pokeCards.unshift(searchPokeInfo("weezing").then(createPokeCard));
+const maybePokeCards = sessionStorage.getItem("pokeInfos");
+const pokeInfos = (maybePokeCards !== null) ? JSON.parse(maybePokeCards) : [];
+
+searchPokeInfo("nihilego").then(createPokeCard);
+searchPokeInfo("celesteela").then(createPokeCard);
+searchPokeInfo("weezing").then(createPokeCard);
+
+document.getElementById("search-button").addEventListener("click", () =>
+{
+    searchPokeInfo(document.getElementById("search-bar").value).then(createPokeCard);
+});
 
 async function searchPokeInfo(name)
 {
+    const pokeCardsFiltered = pokeInfos.filter(pokeCard =>
+    {
+        console.log(pokeCard.name + ' ' + name);
+        return pokeCard.name === name
+    });
     let result = "pokemon-search-error";
 
-    try
+    if (pokeCardsFiltered.length > 0)
     {
-        result = await new Promise((resolve, reject) =>
+        console.log("blub")
+        result = pokeCardsFiltered[0].pokeInfo;
+    } else
+    {
+        try
         {
-            const getRequest = new XMLHttpRequest();
-            getRequest.open("GET", ("https://pokeapi.co/api/v2/pokemon/" + name));
-            getRequest.responseType = "json";
-            getRequest.send();
-            getRequest.onload = function ()
+            console.log("blub-blub");
+            result = await new Promise((resolve, reject) =>
             {
-                if ((getRequest.readyState === 4) && (getRequest.status === 200))
+                const getRequest = new XMLHttpRequest();
+                getRequest.open("GET", ("https://pokeapi.co/api/v2/pokemon/" + name));
+                getRequest.responseType = "json";
+                getRequest.send();
+                getRequest.onload = function ()
                 {
-                    resolve(getRequest.response);
-                } else
-                {
-                    reject(
-                        `error-code: ${getRequest.status}, message: ${getRequest.statusText}`);
+                    if ((getRequest.readyState === 4) && (getRequest.status === 200))
+                    {
+                        resolve(getRequest.response);
+
+                    } else
+                    {
+                        reject(
+                            `error-code: ${getRequest.status}, message: ${getRequest.statusText}`);
+                    }
                 }
-            }
-        });
-    } catch
-        (error)
-    {
-        console.error(error);
+            });
+        } catch
+            (error)
+        {
+            console.error(error);
+        }
     }
 
     return result
 }
 
-document.getElementById("search-button").addEventListener("click", () =>
-{
-    pokeCards.unshift(searchPokeInfo(document.getElementById("search-bar").value).then(createPokeCard));
-    console.log(pokeCards.length);
-});
-
 function createPokeCard(pokeInfo)
 {
-    const pokeCard = document.createElement("div");
-    pokeCard.classList.add("poke-card")
+    const card = document.createElement("div");
+    card.classList.add("poke-card")
 
     const sprite = document.createElement("img");
     sprite.classList.add("sprite");
     sprite.style.display = "block";
     sprite.src =
         pokeInfo.sprites.front_default;
-    pokeCard.appendChild(sprite);
+    card.appendChild(sprite);
 
-    const pokeInfos = [];
-    pokeInfos.push(
+    const info = [];
+    info.push(
         "Name: " + pokeInfo.name.charAt(0).toUpperCase() + pokeInfo.species.name.slice(1));
     if (pokeInfo.name !== pokeInfo.species.name)
     {
-        pokeInfos.push(
+        info.push(
             "Species: " + pokeInfo.species.name.charAt(0).toUpperCase() + pokeInfo.species.name.slice(1));
     }
-    pokeInfos.push(
+    info.push(
         "Types: " + pokeInfo.types.map(pokemonType => pokemonType.type.name).join(", "));
-    pokeInfos.push(
+    info.push(
         "Size: " + pokeInfo.height);
-    pokeInfos.push(
+    info.push(
         "Abilities: " + pokeInfo.abilities.map(pokemonAbility => pokemonAbility.ability.name).join(", "));
     if (Array.isArray(pokeInfo.forms) && (pokeInfo.forms.length > 1))
     {
-        pokeInfos.push("Forms: " + pokeInfo.forms.map(pokemonForm => pokemonForm.name).join(", "));
+        info.push("Forms: " + pokeInfo.forms.map(pokemonForm => pokemonForm.name).join(", "));
     }
-    pokeInfos.push("Stats: " + pokeInfo.stats.map(pokemonStat => pokemonStat.stat.name + ": \"" + pokemonStat.base_stat + "\"").join(", "));
-    pokeInfos.push("Moves (last-three): " + pokeInfo.moves.slice((pokeInfo.moves.length - 3)).map(pokemonMove => pokemonMove.move.name).join(", "));
-    pokeInfos.forEach(
+    info.push("Stats: " + pokeInfo.stats.map(pokemonStat => pokemonStat.stat.name + ": \"" + pokemonStat.base_stat + "\"").join(", "));
+    info.push("Moves (last-three): " + pokeInfo.moves.slice((pokeInfo.moves.length - 3)).map(pokemonMove => pokemonMove.move.name).join(", "));
+    info.forEach(
         info =>
         {
             const pokeInfoParagraph = document.createElement(
                 "p");
             pokeInfoParagraph.textContent = info;
-            pokeCard.appendChild(
+            card.appendChild(
                 pokeInfoParagraph);
         });
 
-    document.getElementById("card-viewer").prepend(pokeCard);
-    return pokeCard;
+    document.getElementById("card-viewer").prepend(card);
+    pokeInfos.unshift({name: pokeInfo.name, pokeInfo: pokeInfo});
+    sessionStorage.setItem("pokeInfos", JSON.stringify(pokeInfos));
 }
