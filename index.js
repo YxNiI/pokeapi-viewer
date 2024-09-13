@@ -1,11 +1,16 @@
-const maybePokeInfos = sessionStorage.getItem("pokeInfos");
-const maybePokeCards = sessionStorage.getItem("pokeCards");
-const pokeInfos = (maybePokeInfos !== null) ? JSON.parse(maybePokeInfos) : [];
-const pokeCards = (maybePokeCards !== null) ? JSON.parse(maybePokeCards) : [];
+const maybePokeInfosJson = sessionStorage.getItem("pokeInfos");
+const maybePokeCardsJson = sessionStorage.getItem("pokeCards");
+const pokeInfos = getArrayFromJson(maybePokeInfosJson)
+const pokeCards = getArrayFromJson(maybePokeCardsJson);
 
 searchPokeInfo("nihilego").then(createPokeCard);
 searchPokeInfo("celesteela").then(createPokeCard);
 searchPokeInfo("weezing").then(createPokeCard);
+
+function getArrayFromJson(json)
+{
+    return (json !== null) ? JSON.parse(json) : [];
+}
 
 document.getElementById("search-button").addEventListener("click", () =>
 {
